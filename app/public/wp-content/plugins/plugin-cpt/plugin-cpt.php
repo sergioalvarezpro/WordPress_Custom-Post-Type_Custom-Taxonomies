@@ -97,5 +97,19 @@ function comic_review_setup_post_type(){
 
 add_action( 'init', 'comic_review_setup_post_type' );
 
+//Flushing Rewrite on Activation/Deactivation (plugin)
+register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
+register_activation_hook(__FILE__, 'cafelog_rewrite_flush');
+
+//Flushing Rewrite on swith theme
+//add_action( 'after_switch_theme', 'cafelog_rewrite_flush' );
+
+function cafelog_rewrite_flush(){
+    comic_review_setup_post_type();
+    // Limpia las reglas de reescritura (enlace permanentes)
+    // Actualiza el fichero .htaccess
+    flush_rewrite_rules();
+}
+
 
 
