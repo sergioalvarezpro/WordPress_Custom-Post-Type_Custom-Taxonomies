@@ -73,10 +73,27 @@ function comic_review_setup_post_type(){
     $args = array(
         'public' => true,
         'labels' => $labels,
+        //'exclude_from_search' => false, //default: opuesto a 'public'
+        //'public_queryable' => true, //default: coge el valor de 'public'
+        //'show_ui' => true, //default: coge el valor de 'public'
+        //'show_in_nav_menus' => true, //default: coge el valor de 'public'. En el backen de WP se tiene que activar en opciones, para que aparezca en Aparencia -> Menú
+        //'show_in_menu' => true, //default: coge el valor de 'show_ui'
+        //'show_in_admin_bar' => true, //default: 'show_in_menu'
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-star-half',
+        'hierarchical' => false,
+        'supports' => array(
+            'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments', 'revisions'
+        ),
+        'has_archive' => true, //hacer flush con los enlaces permanentes.
+        'rewrite' => array(
+            'slug' => __('reviews', 'cafelog'), //hacer flush con los enlaces permanentes.
+        ),
+        //'can_export' => true, //default: true
     );
 
- register_post_type( 'cafelog_comic_review', $args )
-}
+ register_post_type( 'cafelog_comic_review', $args );
+};
 
 add_action( 'init', 'comic_review_setup_post_type' );
 
