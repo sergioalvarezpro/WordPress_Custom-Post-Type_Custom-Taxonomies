@@ -92,7 +92,87 @@ function comic_review_setup_post_type(){
         //'can_export' => true, //default: true
     );
 
- register_post_type( 'cafelog_comic_review', $args );
+    register_post_type( 'cafelog_comic_review', $args );
+
+    /**
+     * TAXONOMIES
+     */
+
+    //Author Taxonomy
+    $labelsAuthor = array(
+        'name' => __('Autores', 'cafelog'), //Nombre de la taxonomia en plural
+        'singular_name' => __('Autor', 'cafelog'), //Nombre de la taxonomia en singular
+        //'menu_name' => __('Autores', 'cafelog'), //default: 'name'
+        'all_items' => __('Todos los autores', 'cafelog'),
+        'edit_item' => __('Editar autor', 'cafelog'),
+        'view_item' => __('Ver autor', 'cafelog'),
+        'update_item' => __('Actualizar autor', 'cafelog'),
+        'add_new_item' => __('Añadir nuevo autor', 'cafelog'),
+        'new_item_name' => __('Nombre del nuevo autor', 'cafelog'),
+        //'parent_item' => __('Autor Padre', 'cafelog'), //jeráquica
+        //'parent_item_colon' => __('Autor Padre:', 'cafelog'), //jeráquica
+        'search_items' => __('Buscar autores', 'cafelog'),
+        'popular_items' => __('Autores populares', 'cafelog'), //no jerárquica
+        'add_or_remove_items' => __('Añadir o eliminar autores', 'cafelog'), //no jerárquica /no activado el javascript
+        'choose_from_most_used' => __('Elegir entre los autores más utilizados', 'cafelog'),
+        'not found' => __('No se han encontrado autores', 'cafelog')
+    );
+
+    $argsAuthor = array(
+        'public' => true,
+        'labels' => $labelsAuthor,
+        //'publicly_queryable' => true, //default: 'public'
+        //'show_ui' => true, //default: 'public'
+        //'show_in_menu' => true, //default: 'show_ui'
+        //'show_in_nav_menus' => true, //default: 'public'
+        //'show_tagcloud' => true, //default: 'show_ui'
+        //'show_in_quick_edit' => true, //default: 'show_ui'
+        'show_admin_column' => true,
+        'hierarchical' => false,
+        'update_count_callback' => '_update_post_term_count',
+        'rewrite' => array(
+            'slug' => __('autorcomic', 'cafelog')
+        ),
+        'sort' => true
+    );
+
+     register_taxonomy('cafelog_comic_author', array('cafelog_comic_review'), $argsAuthor);
+     register_taxonomy_for_object_type('cafelog_comic_author', 'cafelog_comic_review'); //Está función nos permite asociar una taxonomia a un CPT
+
+
+    //Genre Taxonomy
+    $labelsGenre = array(
+        'name' => __('Géneros', 'cafelog'), //Nombre de la taxonomia en plural
+        'singular_name' => __('Género', 'cafelog'), //Nombre de la taxonomia en singular
+        //'menu_name' => __('Autores', 'cafelog'), //default: 'name'
+        'all_items' => __('Todos los géneros', 'cafelog'),
+        'edit_item' => __('Editar género', 'cafelog'),
+        'view_item' => __('Ver género', 'cafelog'),
+        'update_item' => __('Actualizar género', 'cafelog'),
+        'add_new_item' => __('Añadir nuevo género', 'cafelog'),
+        'new_item_name' => __('Nombre del nuevo género', 'cafelog'),
+        'parent_item' => __('Género Padre', 'cafelog'), //jeráquica
+        'parent_item_colon' => __('Género Padre:', 'cafelog'), //jeráquica
+        'search_items' => __('Buscar género', 'cafelog'),
+        //'popular_items' => __('Géneros populares', 'cafelog'), //no jerárquica
+        //'add_or_remove_items' => __('Añadir o eliminar géneros', 'cafelog'), //no jerárquica /no activado el javascript
+        'choose_from_most_used' => __('Elegir entre los géneros más utilizados', 'cafelog'),
+        'not found' => __('No se han encontrado géneros', 'cafelog')
+    );
+
+    $argsGenre = array(
+        'public' => true,
+        'labels' => $labelsGenre,
+        'show_admin_column' => true,
+        'hierarchical' => true,
+        'rewrite' => array(
+            'slug' => __('genero', 'cafelog')
+        ),
+        'sort' => true
+    );
+
+    register_taxonomy('cafelog_comic_genre', array('cafelog_comic_review'), $argsGenre);
+    register_taxonomy_for_object_type('cafelog_comic_genre', 'cafelog_comic_review'); //Está función nos permite asociar una taxonomia a un CPT
 };
 
 add_action( 'init', 'comic_review_setup_post_type' );
